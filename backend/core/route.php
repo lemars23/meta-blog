@@ -27,9 +27,9 @@ class Route
 
         // Подключаю модели
         $model_file = strtolower($model_name) . '.php';
-        $model_path = '/backend/models/'. $model_file;
+        $model_path = '../backend/models/'. $model_file;
         if(file_exists($model_path)) {
-            include './backend/models/'. $model_file;
+            include '../backend/models/'. $model_file;
         }
 
         // Подключаю контроллер
@@ -60,7 +60,7 @@ class Route
         header('HTTP/1.1 404 Not Found');
 		header("Status: 404 Not Found");
 		header('Location:'.$host.'404');
-        
         http_response_code(404);
+        exit();
     }
 }

@@ -1,0 +1,290 @@
+[33mcommit 47bccbbe15195f868056faf2f174f7d0dd70c8dd[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Alisher <alishersmagylov@gmail.com>
+Date:   Fri Jun 7 11:00:54 2024 +0500
+
+    Initial commit
+
+[1mdiff --git a/.htaccess b/.htaccess[m
+[1mnew file mode 100644[m
+[1mindex 0000000..64e7b96[m
+[1m--- /dev/null[m
+[1m+++ b/.htaccess[m
+[36m@@ -0,0 +1,18 @@[m
+[32m+[m[32maddDefaultCharset utf-8[m
+[32m+[m
+[32m+[m[32mRewriteEngine On[m
+[32m+[m[32mRewriteBase /[m
+[32m+[m
+[32m+[m[32mDirectoryIndex /frontend/index.php[m
+[32m+[m
+[32m+[m[32mRewriteCond %{REQUEST_FILENAME} !-f[m
+[32m+[m[32mRewriteCond %{REQUEST_FILENAME} !-d[m
+[32m+[m
+[32m+[m[32mRewriteRule ^(.*)$ /frontend/index.php[m
+[32m+[m
+[32m+[m[32mErrorDocument 404 /backend/views/404.php[m
+[32m+[m
+[32m+[m[32m<Files .htaccess>[m
+[32m+[m[32mOrder Allow,Deny[m
+[32m+[m[32mDeny from all[m
+[32m+[m[32m</Files>[m
+\ No newline at end of file[m
+[1mdiff --git a/backend/app.php b/backend/app.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..3d509ae[m
+[1m--- /dev/null[m
+[1m+++ b/backend/app.php[m
+[36m@@ -0,0 +1,12 @@[m
+[32m+[m[32m<?php[m
+[32m+[m
+[32m+[m[32m$route = $_SERVER['DOCUMENT_ROOT'] . '/backend';[m
+[32m+[m
+[32m+[m[32mrequire_once $route . "/core/controller.php";[m
+[32m+[m[32mrequire_once $route . "/core/model.php";[m
+[32m+[m[32mrequire_once $route . "/core/view.php";[m
+[32m+[m[32mrequire_once $route . "/core/route.php";[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m[32mRoute::start();[m
+\ No newline at end of file[m
+[1mdiff --git a/backend/controllers/controller_main.php b/backend/controllers/controller_main.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..62860e7[m
+[1m--- /dev/null[m
+[1m+++ b/backend/controllers/controller_main.php[m
+[36m@@ -0,0 +1,11 @@[m
+[32m+[m[32m<?php[m
+[32m+[m
+[32m+[m[32mclass Controller_Main extends Controller {[m
+[32m+[m[32m    function action_index() {[m
+[32m+[m[32m        $this->view->generate('main_view.php', 'user_template_view.php', ['data' => 'something another']);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    function action_contact() {[m
+[32m+[m[32m        $this->view->generate('contact_view.php', 'admin_template_view.php', ['data' => 'something another']);[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/backend/core/controller.php b/backend/core/controller.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..4aa1e4a[m
+[1m--- /dev/null[m
+[1m+++ b/backend/core/controller.php[m
+[36m@@ -0,0 +1,17 @@[m
+[32m+[m[32m<?php[m
+[32m+[m
+[32m+[m[32mclass Controller {[m
+[32m+[m[32m    public $model;[m
+[32m+[m[32m    public $view;[m
+[32m+[m
+[32m+[m[32m    function __construct()[m
+[32m+[m[32m    {[m
+[32m+[m[32m        $this->view = new View();[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    /*[m
+[32m+[m[32m    function action_index() {[m
+[32m+[m[41m        [m
+[32m+[m[32m    }[m
+[32m+[m[32m    */[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/backend/core/model.php b/backend/core/model.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..9af2ae2[m
+[1m--- /dev/null[m
+[1m+++ b/backend/core/model.php[m
+[36m@@ -0,0 +1,11 @@[m
+[32m+[m[32m<?php[m
+[32m+[m
+[32m+[m[32mclass Model {[m
+[32m+[m[32m    public function index() {[m
+[32m+[m[41m        [m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public function get_data() {[m
+[32m+[m[41m        [m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/backend/core/route.php b/backend/core/route.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..87f396c[m
+[1m--- /dev/null[m
+[1m+++ b/backend/core/route.php[m
+[36m@@ -0,0 +1,66 @@[m
+[32m+[m[32m<?php[m
+[32m+[m[32mclass Route[m
+[32m+[m[32m{[m
+[32m+[m	[32mstatic function start()[m
+[32m+[m	[32m{[m
+[32m+[m		[32m// контроллер и действие по умолчанию[m
+[32m+[m		[32m$controller_name = 'Main';[m
+[32m+[m		[32m$action_name = 'index';[m
+[32m+[m[41m		[m
+[32m+[m		[32m$routes = explode('/', $_SERVER['REQUEST_URI']);[m
+[32m+[m
+[32m+[m		[32m// получаем имя контроллера[m
+[32m+[m		[32mif ( !empty($routes[1]) )[m
+[32m+[m		[32m{[m[41m	[m
+[32m+[m			[32m$controller_name = $routes[1];[m
+[32m+[m		[32m}[m
+[32m+[m[41m		[m
+[32m+[m		[32m// получаем имя экшена[m
+[32m+[m		[32mif ( !empty($routes[2]) )[m
+[32m+[m		[32m{[m
+[32m+[m			[32m$action_name = $routes[2];[m
+[32m+[m		[32m}[m
+[32m+[m
+[32m+[m[32m        $model_name = 'Model_' . $controller_name;[m
+[32m+[m[32m        $controller_name = 'Controller_' . $controller_name;[m
+[32m+[m[32m        $action_name = 'action_'. $action_name;[m
+[32m+[m
+[32m+[m[32m        // Подключаю модели[m
+[32m+[m[32m        $model_file = strtolower($model_name) . '.php';[m
+[32m+[m[32m        $model_path = '/backend/models/'. $model_file;[m
+[32m+[m[32m        if(file_exists($model_path)) {[m
+[32m+[m[32m            include './backend/models/'. $model_file;[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        // Подключаю контроллер[m
+[32m+[m[32m        $controller_file = strtolower($controller_name) . '.php';[m
+[32m+[m[32m        $controller_path = '../backend/controllers/'. $controller_file;[m
+[32m+[m
+[32m+[m[32m        if(file_exists($controller_path)) {[m
+[32m+[m[32m            include '../backend/controllers/'. $controller_file;[m
+[32m+[m[32m        } else {[m
+[32m+[m[32m            http_response_code(404);[m
+[32m+[m[32m            exit;[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        // Создаем контроллер[m
+[32m+[m[32m        $controller = new $controller_name;[m
+[32m+[m[32m        $action = $action_name;[m
+[32m+[m
+[32m+[m[32m        if(method_exists($controller, $action)) {[m
+[32m+[m[32m            $controller->$action();[m
+[32m+[m[32m        } else {[m
+[32m+[m[32m            Route::ErrorPage404();[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    static function ErrorPage404() {[m
+[32m+[m[41m        [m
+[32m+[m[32m        $host = 'http://'.$_SERVER['HTTP_HOST'].'/';[m
+[32m+[m[32m        header('HTTP/1.1 404 Not Found');[m
+[32m+[m		[32mheader("Status: 404 Not Found");[m
+[32m+[m		[32mheader('Location:'.$host.'404');[m
+[32m+[m[41m        [m
+[32m+[m[32m        http_response_code(404);[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git a/backend/core/view.php b/backend/core/view.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..a77abc3[m
+[1m--- /dev/null[m
+[1m+++ b/backend/core/view.php[m
+[36m@@ -0,0 +1,15 @@[m
+[32m+[m[32m<?php[m
+[32m+[m
+[32m+[m[32mclass View {[m
+[32m+[m[32m    // public $template_view[m
+[32m+[m
+[32m+[m[32m    function generate($content_view, $template_view,$data = null) {[m
+[32m+[m[32m        if(is_array($data)) {[m
+[32m+[m[32m            extract($data);[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        // include './backend/views/' . $template_view;[m
+[32m+[m
+[32m+[m[32m        include '../backend/views/' . $template_view;[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/backend/views/404.php b/backend/views/404.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..1fcbe05[m
+[1m--- /dev/null[m
+[1m+++ b/backend/views/404.php[m
+[36m@@ -0,0 +1,11 @@[m
+[32m+[m[32m<!DOCTYPE html>[m
+[32m+[m[32m<html lang="en">[m
+[32m+[m[32m<head>[m
+[32m+[m[32m    <meta charset="UTF-8">[m
+[32m+[m[32m    <meta name="viewport" content="width=device-width, initial-scale=1.0">[m
+[32m+[m[32m    <title>Document</title>[m
+[32m+[m[32m</head>[m
+[32m+[m[32m<body>[m
+[32m+[m[32m    Страница не существует[m
+[32m+[m[32m</body>[m
+[32m+[m[32m</html>[m
+\ No newline at end of file[m
+[1mdiff --git a/backend/views/admin_template_view.php b/backend/views/admin_template_view.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..2ae39fa[m
+[1m--- /dev/null[m
+[1m+++ b/backend/views/admin_template_view.php[m
+[36m@@ -0,0 +1,12 @@[m
+[32m+[m[32m<!DOCTYPE html>[m
+[32m+[m[32m<html lang="en">[m
+[32m+[m[32m<head>[m
+[32m+[m[32m    <meta charset="UTF-8">[m
+[32m+[m[32m    <meta name="viewport" content="width=device-width, initial-scale=1.0">[m
+[32m+[m[32m    <title>Admin</title>[m
+[32m+[m[32m    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">[m
+[32m+[m[32m</head>[m
+[32m+[m[32m<body>[m
+[32m+[m[32m    <?php include '../backend/views/' . $content_view ?>;[m
+[32m+[m[32m</body>[m
+[32m+[m[32m</html>[m
+\ No newline at end of file[m
+[1mdiff --git a/backend/views/contact_view.php b/backend/views/contact_view.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..4748958[m
+[1m--- /dev/null[m
+[1m+++ b/backend/views/contact_view.php[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32m<h1>Это страница контактов</h1>[m
+\ No newline at end of file[m
+[1mdiff --git a/backend/views/main_view.php b/backend/views/main_view.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..04ef51a[m
+[1m--- /dev/null[m
+[1m+++ b/backend/views/main_view.php[m
+[36m@@ -0,0 +1,3 @@[m
+[32m+[m[32m<?php //print_r($data) ?>[m
+[32m+[m
+[32m+[m[32m<h1>Это главная страница</h1>[m
+\ No newline at end of file[m
+[1mdiff --git a/backend/views/user_template_view.php b/backend/views/user_template_view.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..94b19d2[m
+[1m--- /dev/null[m
+[1m+++ b/backend/views/user_template_view.php[m
+[36m@@ -0,0 +1,11 @@[m
+[32m+[m[32m<!DOCTYPE html>[m
+[32m+[m[32m<html lang="en">[m
+[32m+[m[32m<head>[m
+[32m+[m[32m    <meta charset="UTF-8">[m
+[32m+[m[32m    <meta name="viewport" content="width=device-width, initial-scale=1.0">[m
+[32m+[m[32m    <title>Главная</title>[m
+[32m+[m[32m</head>[m
+[32m+[m[32m<body>[m
+[32m+[m[32m    <?php include '../backend/views/' . $content_view ?>[m
+[32m+[m[32m</body>[m
+[32m+[m[32m</html>[m
+\ No newline at end of file[m
+[1mdiff --git a/frontend/index.php b/frontend/index.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..d4ae0a8[m
+[1m--- /dev/null[m
+[1m+++ b/frontend/index.php[m
+[36m@@ -0,0 +1,7 @@[m
+[32m+[m[32m<?php[m
+[32m+[m[32mini_set('display_errors', 1);[m
+[32m+[m[32mrequire_once "../backend/app.php";[m
+[32m+[m
+[32m+[m
+[32m+[m[32m// print_r($_SERVER['REQUEST_URI']);[m
+[32m+[m

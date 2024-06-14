@@ -10,7 +10,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 RewriteRule ^(.*)$ /frontend/index.php
 
-ErrorDocument 404 /backend/views/404.php
+ErrorDocument 404 ./backend/views/404.php
 
 <Files .htaccess>
 Order Allow,Deny
