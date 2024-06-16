@@ -185,63 +185,49 @@ async function getMostViewsPosts(count) {
 
 async function setMostViewPosts() {
     const getPosts = await getMostViewsPosts(3);
-
-    const firstPost = getPosts[0];
-    const secondPost = getPosts[1];
-    const thirdPost = getPosts[2];
-
-    const firstMostViewPost = document.querySelector('.most-views-posts__left-side > .most-views-posts__post');
-    const secondMostViewPost = document.querySelector('.most-views-posts__right-side > .most-views-posts__post:first-child');
-    const thirdMostViewPost = document.querySelector('.most-views-posts__right-side > .most-views-posts__post:last-child');
     
-    const firstPostCategory = await getCategoryById(firstPost.category_id);
-    const secondPostCategory = await getCategoryById(secondPost.category_id);
-    const thirdPostCategory = await getCategoryById(thirdPost.category_id);
+    const firstPostCategory = await getCategoryById(getPosts[0].category_id);
+    const secondPostCategory = await getCategoryById(getPosts[1].category_id);
+    const thirdPostCategory = await getCategoryById(getPosts[2].category_id);
 
-    const firstPostAuthor = await getAdminById(firstPost.created_by);
-    const secondPostAuthor = await getAdminById(secondPost.created_by);
-    const thirdPostAuthor = await getAdminById(thirdPost.created_by);
+    const firstPostAuthor = await getAdminById(getPosts[0].created_by);
+    const secondPostAuthor = await getAdminById(getPosts[1].created_by);
+    const thirdPostAuthor = await getAdminById(getPosts[2].created_by);
 
-    const dateFirstPost = new Date(firstPost.created_at.split(" ")[0]);
-    const getDateFirstPost = dateFirstPost.toLocaleString('default', {month: "long"}) + ' ' + dateFirstPost.getDate() + ', ' + dateFirstPost.getFullYear();
-    const dateSecondPost = new Date(secondPost.created_at.split(" ")[0]);
-    const getDateSecondPost = dateSecondPost.toLocaleString('default', {month: "long"}) + ' ' + dateSecondPost.getDate() + ', ' + dateSecondPost.getFullYear();
-    const dateThirdPost = new Date(thirdPost.created_at.split(" ")[0]);
-    const getDateThirdPost = dateThirdPost.toLocaleString('default', {month: "long"}) + ' ' + dateThirdPost.getDate() + ', ' + dateThirdPost.getFullYear();
+    const arrayMostViewPosts = [
+        {
+            post: getPosts[0],
+            view: document.querySelector('.most-views-posts__left-side > .most-views-posts__post'),
+            category: firstPostCategory,
+            author: firstPostAuthor,
+        },
+        {
+            post: getPosts[1],
+            view: document.querySelector('.most-views-posts__right-side > .most-views-posts__post:first-child'),
+            category: secondPostCategory,
+            author: secondPostAuthor,
+        },
+        {
+            post: getPosts[2],
+            view: document.querySelector('.most-views-posts__right-side > .most-views-posts__post:last-child'),
+            category: thirdPostCategory,
+            author: thirdPostAuthor,
+        },
+    ];
 
-    firstMostViewPost.children[0].children[0].href = '/category/index/' + firstPost.category_id;
-    firstMostViewPost.children[0].children[0].innerText = firstPostCategory.title;
-    secondMostViewPost.children[0].children[0].href = '/category/index/' + secondPost.category_id;
-    secondMostViewPost.children[0].children[0].innerText = secondPostCategory.title;
-    thirdMostViewPost.children[0].children[0].href = '/category/index/' + thirdPost.category_id;
-    thirdMostViewPost.children[0].children[0].innerText = thirdPostCategory.title;
-
-    firstMostViewPost.children[1].href = '/singlepost/index/' + firstPost.id;
-    firstMostViewPost.children[1].innerText = firstPost.title;
-    secondMostViewPost.children[1].href = '/singlepost/index/' + secondPost.id;
-    secondMostViewPost.children[1].innerText = secondPost.title;
-    thirdMostViewPost.children[1].href = '/singlepost/index/' + thirdPost.id;
-    thirdMostViewPost.children[1].innerText = thirdPost.title;
-
-    firstMostViewPost.children[2].children[0].children[0].src = firstPostAuthor.image ? '/frontend/images/authors/' + firstPostAuthor.image + '.webp' : '/frontend/images/no-picture/no-picture-36x36.png';
-    firstMostViewPost.children[2].children[0].children[1].href = '/author/index/' + firstPostAuthor.id;
-    firstMostViewPost.children[2].children[0].children[1].innerText = firstPostAuthor.username;
-
-    secondMostViewPost.children[2].children[0].children[0].src = secondPostAuthor.image ? '/frontend/images/authors/' + secondPostAuthor.image + '.webp' : '/frontend/images/no-picture/no-picture-36x36.png';
-    secondMostViewPost.children[2].children[0].children[1].href = '/author/index/' + secondPostAuthor.id;
-    secondMostViewPost.children[2].children[0].children[1].innerText = secondPostAuthor.username;
-
-    thirdMostViewPost.children[2].children[0].children[0].src = thirdPostAuthor.image ? '/frontend/images/authors/' + thirdPostAuthor.image + '.webp' : '/frontend/images/no-picture/no-picture-36x36.png';
-    thirdMostViewPost.children[2].children[0].children[1].href = '/author/index/' + thirdPostAuthor.id;
-    thirdMostViewPost.children[2].children[0].children[1].innerText = thirdPostAuthor.username;
-
-    firstMostViewPost.children[2].children[1].innerHTML = getDateFirstPost;
-    secondMostViewPost.children[2].children[1].innerHTML = getDateSecondPost;
-    thirdMostViewPost.children[2].children[1].innerHTML = getDateThirdPost;
-
-    firstMostViewPost.style.backgroundImage = `url('/frontend/images/posts/${firstPost.image}.webp')`;
-    secondMostViewPost.style.backgroundImage = `url('/frontend/images/posts/${secondPost.image}.webp')`;
-    thirdMostViewPost.style.backgroundImage = `url('/frontend/images/posts/${thirdPost.image}.webp')`;
+    arrayMostViewPosts.map(item => {
+        const datePost = new Date(item.post.created_at.split(" ")[0]);
+        const getDatePost = datePost.toLocaleString('default', {month: "long"}) + ' ' + datePost.getDate() + ', ' + datePost.getFullYear();
+        item.view.children[0].children[0].href = '/category/index/' + item.post.category_id;
+        item.view.children[0].children[0].innerText = item.category.title;
+        item.view.children[1].href = '/singlepost/index/' + item.post.id;
+        item.view.children[1].innerText = item.post.title;
+        item.view.children[2].children[0].children[0].src = item.author.image ? '/frontend/images/authors/' + item.author.image + '.webp' : '/frontend/images/no-picture/no-picture-36x36.png';
+        item.view.children[2].children[0].children[1].href = '/author/index/' + item.author.id;
+        item.view.children[2].children[0].children[1].innerText = item.author.username;
+        item.view.children[2].children[1].innerHTML = getDatePost;
+        item.view.style.backgroundImage = `url('/frontend/images/posts/${item.post.image}.webp')`;
+    });
 }
 
 async function fetchLatestPost() {
