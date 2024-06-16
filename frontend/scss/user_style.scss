@@ -366,6 +366,7 @@ body {
         width: 100%;
         height: 240px;
         border-radius: 6px;
+        object-fit: cover;
       }
 
       &-name {
@@ -589,13 +590,12 @@ body {
 
     &__left-side > .most-views-posts__post {
       height: 100%;
-      width: 100%;
+      width: 598px;
       padding: 40px;
       border-radius: 12px;
       display: flex;
       flex-direction: column;
       justify-content: end;
-      background-image: url('/frontend/images/posts/vr.webp');
       background-size: cover;
       color: #fff;
       a {
@@ -608,13 +608,21 @@ body {
       font-weight: 600;
       font-size: 2.25em;
       line-height: 1.111;
+      color: #fff;
     }
 
     &__author {
       display: flex;
       align-items: center;
       column-gap: 12px;
+      &-link {
+        color: #fff;
+        font-weight: 500;
 
+        &::first-letter {
+          text-transform: uppercase;
+        }
+      }
       &-image {
         width: 36px;
         height: 36px;
@@ -627,6 +635,7 @@ body {
       display: flex;
       align-items: center;
       column-gap: 20px;
+      color: #fff;
     }
 
     &__right-side {
@@ -638,9 +647,15 @@ body {
     &__right-side > .most-views-posts__post {
       height: 48.4848%;
       padding: 40px;
+      border-radius: 12px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+    }
+
+    &__right-side > .most-views-posts__post {
+      background-size: cover;
+      background-position: center center;
     }
   }
 
@@ -653,6 +668,10 @@ body {
       font-weight: 500;
       font-size: 0.875em;
       color: #fff;
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
     }
   }
 }

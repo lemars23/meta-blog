@@ -282,6 +282,7 @@ body {
     width: 100%;
     height: 240px;
     border-radius: 6px;
+    object-fit: cover;
   }
   .latest-post__item-name {
     margin-top: 16px;
@@ -461,13 +462,12 @@ body {
   }
   .most-views-posts__left-side > .most-views-posts__post {
     height: 100%;
-    width: 100%;
+    width: 598px;
     padding: 40px;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     justify-content: end;
-    background-image: url("/frontend/images/posts/vr.webp");
     background-size: cover;
     color: #fff;
   }
@@ -479,11 +479,19 @@ body {
     font-weight: 600;
     font-size: 2.25em;
     line-height: 1.111;
+    color: #fff;
   }
   .most-views-posts__author {
     display: flex;
     align-items: center;
     column-gap: 12px;
+  }
+  .most-views-posts__author-link {
+    color: #fff;
+    font-weight: 500;
+  }
+  .most-views-posts__author-link::first-letter {
+    text-transform: uppercase;
   }
   .most-views-posts__author-image {
     width: 36px;
@@ -495,6 +503,7 @@ body {
     display: flex;
     align-items: center;
     column-gap: 20px;
+    color: #fff;
   }
   .most-views-posts__right-side {
     display: flex;
@@ -504,9 +513,14 @@ body {
   .most-views-posts__right-side > .most-views-posts__post {
     height: 48.4848%;
     padding: 40px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+  .most-views-posts__right-side > .most-views-posts__post {
+    background-size: cover;
+    background-position: center center;
   }
   .category__link {
     display: inline-block;
@@ -516,5 +530,8 @@ body {
     font-weight: 500;
     font-size: 0.875em;
     color: #fff;
+  }
+  .category__link::first-letter {
+    text-transform: uppercase;
   }
 }/*# sourceMappingURL=user_style.css.map */

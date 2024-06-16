@@ -2,7 +2,8 @@ const headerNavigationList = document.querySelector('.navigation__list');
 const quickLinkList = document.querySelector('.quick-link__list');
 const categoryList = document.querySelector('.category__list');
 const latestPostList = document.querySelector('.latest-post__list');
-const articleName = document.querySelector('.home-header') ? '.home-header' : document.querySelector('.blog-listing') ? '.blog-listing' : null; 
+const articleName = document.querySelector('.home-header') ? '.home-header' : document.querySelector('.blog-listing') ? '.blog-listing' : null;
+const mostViewsPosts = document.querySelector('.most-views-posts');
 
 getFetch('/backend/api/header_link/getAllHeaderLinks.php', getAllHeaderLinks);
 getFetch('/backend/api/quick_link/getAllQuickLinks.php', getFooterAllQuickLinks);
@@ -185,9 +186,62 @@ async function getMostViewsPosts(count) {
 async function setMostViewPosts() {
     const getPosts = await getMostViewsPosts(3);
 
-    if(getPosts) {
-        
-    }
+    const firstPost = getPosts[0];
+    const secondPost = getPosts[1];
+    const thirdPost = getPosts[2];
+
+    const firstMostViewPost = document.querySelector('.most-views-posts__left-side > .most-views-posts__post');
+    const secondMostViewPost = document.querySelector('.most-views-posts__right-side > .most-views-posts__post:first-child');
+    const thirdMostViewPost = document.querySelector('.most-views-posts__right-side > .most-views-posts__post:last-child');
+    
+    const firstPostCategory = await getCategoryById(firstPost.category_id);
+    const secondPostCategory = await getCategoryById(secondPost.category_id);
+    const thirdPostCategory = await getCategoryById(thirdPost.category_id);
+
+    const firstPostAuthor = await getAdminById(firstPost.created_by);
+    const secondPostAuthor = await getAdminById(secondPost.created_by);
+    const thirdPostAuthor = await getAdminById(thirdPost.created_by);
+
+    const dateFirstPost = new Date(firstPost.created_at.split(" ")[0]);
+    const getDateFirstPost = dateFirstPost.toLocaleString('default', {month: "long"}) + ' ' + dateFirstPost.getDate() + ', ' + dateFirstPost.getFullYear();
+    const dateSecondPost = new Date(secondPost.created_at.split(" ")[0]);
+    const getDateSecondPost = dateSecondPost.toLocaleString('default', {month: "long"}) + ' ' + dateSecondPost.getDate() + ', ' + dateSecondPost.getFullYear();
+    const dateThirdPost = new Date(thirdPost.created_at.split(" ")[0]);
+    const getDateThirdPost = dateThirdPost.toLocaleString('default', {month: "long"}) + ' ' + dateThirdPost.getDate() + ', ' + dateThirdPost.getFullYear();
+
+    firstMostViewPost.children[0].children[0].href = '/category/index/' + firstPost.category_id;
+    firstMostViewPost.children[0].children[0].innerText = firstPostCategory.title;
+    secondMostViewPost.children[0].children[0].href = '/category/index/' + secondPost.category_id;
+    secondMostViewPost.children[0].children[0].innerText = secondPostCategory.title;
+    thirdMostViewPost.children[0].children[0].href = '/category/index/' + thirdPost.category_id;
+    thirdMostViewPost.children[0].children[0].innerText = thirdPostCategory.title;
+
+    firstMostViewPost.children[1].href = '/singlepost/index/' + firstPost.id;
+    firstMostViewPost.children[1].innerText = firstPost.title;
+    secondMostViewPost.children[1].href = '/singlepost/index/' + secondPost.id;
+    secondMostViewPost.children[1].innerText = secondPost.title;
+    thirdMostViewPost.children[1].href = '/singlepost/index/' + thirdPost.id;
+    thirdMostViewPost.children[1].innerText = thirdPost.title;
+
+    firstMostViewPost.children[2].children[0].children[0].src = firstPostAuthor.image ? '/frontend/images/authors/' + firstPostAuthor.image + '.webp' : '/frontend/images/no-picture/no-picture-36x36.png';
+    firstMostViewPost.children[2].children[0].children[1].href = '/author/index/' + firstPostAuthor.id;
+    firstMostViewPost.children[2].children[0].children[1].innerText = firstPostAuthor.username;
+
+    secondMostViewPost.children[2].children[0].children[0].src = secondPostAuthor.image ? '/frontend/images/authors/' + secondPostAuthor.image + '.webp' : '/frontend/images/no-picture/no-picture-36x36.png';
+    secondMostViewPost.children[2].children[0].children[1].href = '/author/index/' + secondPostAuthor.id;
+    secondMostViewPost.children[2].children[0].children[1].innerText = secondPostAuthor.username;
+
+    thirdMostViewPost.children[2].children[0].children[0].src = thirdPostAuthor.image ? '/frontend/images/authors/' + thirdPostAuthor.image + '.webp' : '/frontend/images/no-picture/no-picture-36x36.png';
+    thirdMostViewPost.children[2].children[0].children[1].href = '/author/index/' + thirdPostAuthor.id;
+    thirdMostViewPost.children[2].children[0].children[1].innerText = thirdPostAuthor.username;
+
+    firstMostViewPost.children[2].children[1].innerHTML = getDateFirstPost;
+    secondMostViewPost.children[2].children[1].innerHTML = getDateSecondPost;
+    thirdMostViewPost.children[2].children[1].innerHTML = getDateThirdPost;
+
+    firstMostViewPost.style.backgroundImage = `url('/frontend/images/posts/${firstPost.image}.webp')`;
+    secondMostViewPost.style.backgroundImage = `url('/frontend/images/posts/${secondPost.image}.webp')`;
+    thirdMostViewPost.style.backgroundImage = `url('/frontend/images/posts/${thirdPost.image}.webp')`;
 }
 
 async function fetchLatestPost() {
@@ -215,7 +269,7 @@ async function fetchLatestPost() {
                 
                 <div class="latest-post__item-data">
                     <div class="latest-post__item-author latest-post__author">
-                        <img src="${admin && admin.image ? admin.image : '/frontend/images/no-picture/no-picture-36x36.png'}" alt="no-picture author" class="latest-post__author-icon">
+                        <img src="${admin && admin.image ? '/frontend/images/authors/' + admin.image + '.webp' : '/frontend/images/no-picture/no-picture-36x36.png'}" alt="no-picture author" class="latest-post__author-icon">
                         <a href="/author/index/${item.created_by}" class="latest-post__author-name">${admin ? admin.username : 'Unknown'}</a>
                     </div>
                     <div class="latest-post__item-date">${getDate}</div>
