@@ -2,6 +2,7 @@
 <section class="latest-post">
     <div class="container">
         <div class="latest-post__inner">
+            
             <h2 class="latest-post__title">
                 Latest Post
             </h2>

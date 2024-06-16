@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.cdnfonts.com/css/source-serif-pro");
-@import url("https://db.onlinewebfonts.com/c/1db29588408eadbd4406aae9238555eb?family=Consolas");
 :root {
   --font-family: "Work Sans", sans-serif;
   --second-family: "Plus Jakarta Sans", sans-serif;
@@ -347,7 +346,6 @@ body {
   .home-header__background {
     height: 600px;
     border-radius: 12px;
-    background-image: url("/frontend/images/home-header/home-header.jpg");
   }
   .home-header__panel {
     height: 360px;
@@ -401,5 +399,122 @@ body {
   }
   .home-header__date {
     color: #97989f;
+  }
+  .blog-listing__inner {
+    height: 450px;
+    position: relative;
+  }
+  .blog-listing__background {
+    height: 100%;
+    width: 100%;
+    border-radius: 12px;
+  }
+  .blog-listing__panel {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+  }
+  .blog-listing__category-link {
+    border-radius: 6px;
+    padding: 4px 10px;
+    background: #4b6bfb;
+    font-weight: 500;
+    line-height: 1.43;
+    color: #fff;
+    font-size: 0.875em;
+  }
+  .blog-listing__title {
+    width: 72.5%;
+    margin-top: 16px;
+    font-weight: 600;
+    font-size: 2.25em;
+    color: #fff;
+    line-height: 1.11;
+  }
+  .blog-listing__data {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+  }
+  .blog-listing__author {
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+  }
+  .blog-listing__author-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 28px;
+  }
+  .blog-listing__author-name {
+    font-weight: 500;
+    color: #fff;
+  }
+  .blog-listing__date {
+    color: #fff;
+  }
+  .most-views-posts__inner {
+    height: 660px;
+    display: flex;
+    column-gap: 20px;
+  }
+  .most-views-posts__left-side > .most-views-posts__post {
+    height: 100%;
+    width: 100%;
+    padding: 40px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    background-image: url("/frontend/images/posts/vr.webp");
+    background-size: cover;
+    color: #fff;
+  }
+  .most-views-posts__left-side > .most-views-posts__post a {
+    color: #fff;
+  }
+  .most-views-posts__title {
+    margin-top: 16px;
+    font-weight: 600;
+    font-size: 2.25em;
+    line-height: 1.111;
+  }
+  .most-views-posts__author {
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+  }
+  .most-views-posts__author-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 28px;
+  }
+  .most-views-posts__data {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+  }
+  .most-views-posts__right-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .most-views-posts__right-side > .most-views-posts__post {
+    height: 48.4848%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .category__link {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background-color: #4B6BFB;
+    font-weight: 500;
+    font-size: 0.875em;
+    color: #fff;
   }
 }/*# sourceMappingURL=user_style.css.map */
