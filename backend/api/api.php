@@ -1,5 +1,4 @@
 <?php
-
 $server_name = 'firstBlog';
 $dbname = 'firstBlog';
 $username = 'root';
@@ -97,6 +96,26 @@ function getMostViewPosts() {
         die('Connection failed: '. $conn->connect_error);
     }
     $sql_query = "SELECT * FROM `posts` ORDER BY `posts`.`view` DESC LIMIT $count";
+    $result = $conn->query($sql_query);
+    $json = [];
+    while($row = $result->fetch_assoc()) {
+        array_push($json, $row);
+    }
+    print_r(json_encode($json));
+    $conn->close();
+}
+
+function getTagsLimited() {
+    header('Content-Type: application/json');
+    $input = json_decode(file_get_contents('php://input'), true);
+    $count = $input["count"];
+
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    $conn = new mysqli($GLOBALS['server_name'], $GLOBALS['username'], $GLOBALS['password'], $GLOBALS['dbname']);
+    if($conn->connect_error) {
+        die('Connection failed: '. $conn->connect_error);
+    }
+    $sql_query = "SELECT * FROM `tags` ORDER BY `created_at` DESC LIMIT $count";
     $result = $conn->query($sql_query);
     $json = [];
     while($row = $result->fetch_assoc()) {
